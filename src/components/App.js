@@ -3,7 +3,6 @@ import 'typeface-roboto'
 import { Button, TextField, Box, Container, CssBaseline, List, ListItem, ListItemText, Checkbox } from '@material-ui/core'
 
 const INITIAL_TASK = {
-    id: 1,
     title: 'Reactのお勉強',
     doing: false,
 }

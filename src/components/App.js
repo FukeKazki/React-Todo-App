@@ -26,6 +26,10 @@ const App = () => {
       resetTextField()
   }
 
+  const deleteTask = (task) => {
+      setTasks(tasks.filter(x => x !== task))
+  }
+
   return (
     <Container component='main' maxWidth='xs'>
       <CssBaseline />
@@ -54,6 +58,12 @@ const App = () => {
         {tasks.map(task => (
           <ListItem key={task.id} component='li'>
             <ListItemText>{task.title}</ListItemText>
+            <Button
+                href=''
+                onClick={() => deleteTask(task)}
+            >
+                削除
+            </Button>
           </ListItem>
         ))}
       </List>

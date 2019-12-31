@@ -20,8 +20,7 @@ const App = () => {
   }
 
   const isTaskInclude = () => {
-      // 二重否定を使って number型 -> bool型へ変換
-      return !!tasks.filter(task => task.title === task_title).length
+      return tasks.some(task => task.title === task_title)
   }
 
   const addTask = () => {

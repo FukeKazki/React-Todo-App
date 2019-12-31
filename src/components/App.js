@@ -20,10 +20,13 @@ const App = () => {
       setTask_title('')
   }
 
+  const isTaskInclude = () => {
+      // 二重否定を使って number型 -> bool型へ変換
+      return !!tasks.filter(task => task.title === task_title).length
+  }
+
   const addTask = () => {
       setTasks([...tasks, {
-          // FIXME: キーの重複が起きる
-          id: tasks.length + 1,
           title: task_title,
           doing: false,
       }])
@@ -55,7 +58,7 @@ const App = () => {
           onChange={handleTextFieldChanges}
         />
         <Button
-          disabled={task_title === ''}
+          disabled={task_title === '' || isTaskInclude()}
           variant='contained'
           color='primary'
           onClick={addTask}
@@ -68,7 +71,7 @@ const App = () => {
         style={{ marginTop: '48px' }}
         component='ul'>
         {tasks.map(task => (
-          <ListItem key={task.id} component='li'>
+          <ListItem key={task.title} component='li'>
             <Checkbox
                 checked={task.doing}
                 value='primary'

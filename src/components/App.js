@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import 'typeface-roboto'
-import { Button, TextField, Box, Container, CssBaseline, List, ListItem, ListItemText } from '@material-ui/core'
+import { Button, TextField, Box, Container, CssBaseline, List, ListItem, ListItemText, Checkbox } from '@material-ui/core'
 
 const INITIAL_TASK = {
-    id: 1,
-    title: 'Reactのお勉強'
+    title: 'Reactのお勉強',
+    doing: false,
 }
 
 const App = () => {
@@ -14,16 +14,32 @@ const App = () => {
   const handleTextFieldChanges = e => {
       setTask_title(e.target.value)
   }
+
   const resetTextField = () => {
       setTask_title('')
   }
 
+  const isTaskInclude = () => {
+      return tasks.some(task => task.title === task_title)
+  }
+
   const addTask = () => {
       setTasks([...tasks, {
-          id: tasks.length + 1,
           title: task_title,
+          doing: false,
       }])
       resetTextField()
+  }
+
+  const deleteTask = (task) => {
+      setTasks(tasks.filter(x => x !== task))
+  }
+
+  const handleCheckboxChanges = task => {
+      setTasks(tasks.filter(x => {
+          if (x === task) x.doing = !x.doing
+          return x
+      }))
   }
 
   return (
@@ -40,11 +56,12 @@ const App = () => {
           onChange={handleTextFieldChanges}
         />
         <Button
-          disabled={task_title === ''}
+          disabled={task_title === '' || isTaskInclude()}
           variant='contained'
           color='primary'
           onClick={addTask}
-          href=''>
+          href=''
+        >
           作成
         </Button>
       </Box>
@@ -52,8 +69,19 @@ const App = () => {
         style={{ marginTop: '48px' }}
         component='ul'>
         {tasks.map(task => (
-          <ListItem key={task.id} component='li'>
+          <ListItem key={task.title} component='li'>
+            <Checkbox
+                checked={task.doing}
+                value='primary'
+                onChange={() => handleCheckboxChanges(task)}
+            />
             <ListItemText>{task.title}</ListItemText>
+            <Button
+                href=''
+                onClick={() => deleteTask(task)}
+            >
+                削除
+            </Button>
           </ListItem>
         ))}
       </List>
